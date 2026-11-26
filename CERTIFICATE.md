@@ -65,6 +65,23 @@ Otherwise a maximum matching of $F$ has size two. If it had size one, the unmatc
 
 Any edge of $F$ outside $\{a,c\}$, together with edges from $a,c$ to distinct unused vertices of $U$, would form a matching of size three. Each of the nine remaining vertices therefore meets both $a$ and $c$, by the minimum degree. The vertex $x$ has a neighbor $p$ among these nine vertices because $d(x)\geq4$. The edge $xp$ lies in a triangle, so $x$ meets $a$ or $c$, say $a$. For distinct $p,q,r$ among the nine vertices, the triangles $xap$, $0aq$, and $0cr$ are edge-disjoint.
 
+## Searching only minimal counterexamples
+
+The optional `--reduced` search uses two more conditions on a counterexample chosen with the fewest edges, breaking ties by order. The ambient class here consists of all graphs below the chosen order and packing bounds. A graph can leave its anchor or degree slice after an edge deletion, so the reduction uses minimality in the ambient class.
+
+Every edge of a minimal counterexample lies in at least two triangles. If an edge lies in no triangle, deleting it preserves both numbers. If it lies in exactly one triangle, delete the three edges of that triangle. The triangle extends any packing of the smaller graph. Adding its other two edges to a cover of the smaller graph meets every triangle lost by the deletion.
+
+The link at $v$ is the graph on its neighbors. Fix a set $W$ of labels other than $v$, a nonempty matching $M$ of opposite edges inside $W$, and a set $Q\subseteq W$ of size at most $|M|$. Suppose each matching edge gives an actual triangle at $v$, and every other triangle at $v$ that uses a spoke to $W$ also uses a spoke to $Q$. Delete the actual spokes to $W$ and the edges of $M$ to form $H$. The $|M|$ triangles extend any packing of $H$. A cover of $H$ extends to one of $G$ by adding $M$ and the actual spokes to $Q$. Thus
+
+$$
+\nu(G)\geq\nu(H)+|M|,\qquad
+\tau(G)\leq\tau(H)+2|M|.
+$$
+
+A minimal counterexample cannot meet those conditions. The corresponding SAT clause allows a matching triangle to disappear or an uncovered triangle touching a scoped spoke to appear. The replay independently reconstructs the exact allowed literals from each stored $(v,W,M,Q)$. The generator obtains a witness from a link component by finding a matching and a vertex cover of the edges left after removing it. Earlier whole-link logs omit $W$, in which case replay takes all nonapex labels. [Link reduction in the literature](https://arxiv.org/html/2611.11128v1)
+
+For a fixed packing threshold $k$, the master imposes $\nu\leq k$ and $\tau>2k$. An unsatisfiable master therefore excludes only minimal counterexamples at actual packing number $k$, or with cover exceeding $2k$ despite smaller packing. The lower packing cases and all possible order and maximum-degree slices must be covered before concluding the whole ambient class satisfies Tuza.
+
 ## Replay
 
 Unpack the gzip files in the certificates directory. For each prefix, run the independent refinement replay in ordinary Python with assertions enabled. Then use DRAT-trim on the saved CNF and DRAT files. [DRAT-trim source at the tested revision](https://github.com/marijnheule/drat-trim/tree/2e3b2dc0ecf938addbd779d42877b6ed69d9a985)

@@ -1,0 +1,59 @@
+# Tuza's conjecture for triangle packing number at most five
+
+Let $\nu(G)$ be the maximum number of edge-disjoint triangles in a finite simple graph $G$, and let $\tau(G)$ be the minimum number of edges meeting all its triangles.
+
+**Theorem.** If $\nu(G)\leq5$, then $\tau(G)\leq2\nu(G)$.
+
+The argument uses Kandasamy's theorem for maximum degree at most ten and the Tutte–Berge matching formula. The proof below covers the remaining maximum degrees without an order bound. [Kandasamy's theorem](https://arxiv.org/abs/2610.15269) · [Tutte–Berge formula](https://ir.cwi.nl/pub/10149/10149D.pdf)
+
+## Links in a smallest counterexample
+
+Suppose the theorem fails. Choose a counterexample $G$ with the fewest edges, breaking ties by the fewest vertices. Every edge lies in at least two triangles. An edge in no triangle can be deleted. If an edge lies in just one triangle $T$, delete all three edges of $T$. A packing of the smaller graph extends by $T$, and a cover extends by the other two edges of $T$.
+
+The link $L_v$ of $v$ is the subgraph on its neighbors. It has minimum degree at least two. Fix a set $W$ of link vertices, a nonempty matching $M$ inside $W$, and a set $Q$ of link vertices meeting all edges incident to $W$ apart from the edges of $M$. If $|Q|\leq|M|$, delete the spokes from $v$ to $W$ and the edges in $M$. The triangles through $v$ supplied by $M$ extend any packing of the resulting graph. Adding $M$ and the spokes to $Q$ extends any cover. This contradicts minimality because the smaller graph has packing number at most five. The criterion includes whole-link reductions by taking $W=N(v)$. [Link reductions in the literature](https://arxiv.org/html/2611.11128v1)
+
+A graph of minimum degree two on at least four vertices has a matching of size two. Given an edge $uv$, either there is a disjoint edge or every other vertex is adjacent to both $u$ and $v$. A link on three vertices is a triangle, which reduces by taking one edge as $M$ and its opposite vertex as $Q$. A link on four vertices reduces by taking a matching of size two and the endpoints of one matching edge as $Q$. Thus $\delta(G)\geq5$.
+
+A five-vertex link is $K_5$ with at most a matching deleted. Indeed, if a vertex $z$ has two nonneighbors $p,q$, its other two vertices are its neighbors. Use those two neighbors as $Q$. If $pq$ is absent, any matching of size two suffices. If $pq$ is present, take it and an edge from $z$ to a neighbor.
+
+The corresponding statement holds for a six-vertex link. To see this, first suppose there is no perfect matching. Tutte's theorem gives an odd-component count exceeding the size of a separator. By parity the excess is at least two, so the separator has size at most two. With no separator the components must be two triangles, with a one-vertex separator three odd components of size at least three would require nine remaining vertices, and with a two-vertex separator all four remaining vertices are isolated. In the last case the link contains $K_{2,4}$ as a spanning graph, with only the edge within the smaller side optional. The triangle reductions or a matching of size two with $Q$ equal to the smaller side give a reduction.
+
+Now suppose the six-vertex link has a perfect matching. If $z$ has degree two, let $P$ be its three nonneighbors. If $P$ has a nonedge, that pair and $z$ form an independent triple. The complement can serve as $Q$ with any perfect matching. If $P$ is a clique, a perfect matching contains an edge $pq$ of $P$. Take the complement of $\{z,p,q\}$ as $Q$. If the link has minimum degree at least three and a vertex $z$ has two nonneighbors $p,q$, then $z$ has degree three. Again take the complement of $\{z,p,q\}$ as $Q$ if $pq$ is absent or belongs to a perfect matching, using the latter matching when needed. Otherwise, deleting $p,q$ leaves $z$ universal on four vertices and no perfect matching. The three other vertices are independent and their complement serves as $Q$ with any perfect matching of the link. This excludes every six-vertex link with two missing edges at a common endpoint.
+
+Every link therefore has at least six edges and a matching of size two even after deleting any two of its edges. For order five, at least six edges remain, more than a star or a triangle can have on five vertices. At order at least six, at least four edges remain. If they contain no disjoint pair, they form a star. Each of the at least five vertices away from the center would require at least one restored incidence to recover minimum degree two, while the deleted edges supply at most four.
+
+## The link of a maximum-degree vertex
+
+Kandasamy's theorem gives $\Delta(G)\geq11$. Let $a$ have degree $d=\Delta(G)$, put $H=G[N(a)]$, and let $X$ be the nonneighbors of $a$ other than $a$. The graph $H$ has minimum degree at least two by the condition on triangles through the spokes. It has minimum degree at least four if $X=\varnothing$, and at least three if $|X|=1$, since $\delta(G)\geq5$.
+
+A matching of size six in $H$ would give six triangles through $a$. If $X\ne\varnothing$, a matching of size five would also suffice. When $X$ has an edge, a triangle containing it has no edge in common with the five triangles through $a$. When $X$ is independent, take any $x\in X$. Its link lies in $H$ and has at least six edges. An edge in that link outside the matching gives a sixth edge-disjoint triangle through $x$.
+
+The Tutte–Berge formula thus gives $S\subseteq V(H)$ with at least $s+d-2m$ odd components in $H-S$, where $s=|S|$, with $m=4$ if $X\ne\varnothing$ and $m=5$ otherwise. In particular $s\leq m$. If $i$ of the odd components are isolates, then
+$$
+d-s\geq i+3(s+d-2m-i),
+\qquad
+i\geq 2s+d-3m.
+$$
+Each odd component has order at least the smallest positive odd integer at least $\delta(H)-s+1$.
+
+Four isolates suffice for a packing of size six. Their links use edges only among $\{a\}\cup S\cup X$. Use a matching of size two from the first link, then a matching of size two from the second avoiding the two used edges. Use one new edge from each of the last two links. Each link has at least six edges, so an unused edge is available. The six triangles use distinct link edges and pairwise disjoint spokes. With just three isolates the same argument gives five triangles. Any edge in a nonisolated component of $H-S$ gives a sixth triangle through $a$, because neither endpoint lies in the links or spokes used for the first five triangles.
+
+### The case of a nonneighbor
+
+Here $s\leq4$ and $i\geq 2s+d-12$. For $s\geq3$ there are at least five isolates. For $s=2$ there are at least three. If there are exactly three, there is a nonisolated component since $d-2\geq9$. In each case the packing above applies. For $s=1$, every odd component has order at least three and $3(d-7)>d-1$, which is impossible.
+
+For $s=0$, each component has at least three vertices, so $3(d-8)\leq d$. Thus $d\in\{11,12\}$, and at least two components have order three. Both are triangles. We show the three edges of each such component can be extended using different third vertices from $\{a\}\cup X$.
+
+For a component on $u,v,w$, the list for each edge consists of the common neighbors of its ends in $\{a\}\cup X$. Every list contains $a$. If two lists equal $\{a\}$, say for $uv,uw$, then $\{a,v,w\}$ forms a triangle component of $L_u$. It gives a reduction with $W=\{a,v,w\}$. If exactly one list is a singleton and the union of the lists has size two, the other two lists are both $\{a,x\}$. This is impossible because $x$ would be adjacent to all three vertices. If all lists are the same pair $\{a,x\}$, take $W=\{a,v,w,x\}$ in $L_u$, $M=\{av,wx\}$, and $Q=\{w,x\}$. The only edges from $W$ to the rest of the link can be incident with $x$, by the list condition and the fact that $a$ has no neighbor in $X$. This is a reduction. These cases exhaust the failures of Hall's condition for three nonempty lists containing a common element. Distinct representatives give three triangles for each of the two components. The two sets use disjoint edges, even when they use the same representatives.
+
+### The case of a universal vertex
+
+First let $d\geq12$. For $s\geq4$ the isolate bound gives at least five isolates. For $s=1,2,3$, the minimum odd orders are respectively $5,3,3$, which exceed the available $d-s$ vertices when multiplied by the corresponding lower bounds $s+d-10$ on their counts. For $s=0$, the odd order is at least five, so $5(d-10)\leq d$ forces $d=12$. Then $H$ has two components of orders five and seven, since all components have minimum degree four. The smaller is $K_5$. With $a$ it gives $K_6$, which has four edge-disjoint triangles. To see this, divide its vertices into three pairs and take the four choices of one vertex per pair with an even sum of binary indices. The larger component has a matching of size two, giving two additional triangles through $a$.
+
+It remains to consider $d=11$. If $H$ has matching number at most four, apply the same Tutte–Berge argument with $m=4$. For $s=0,1,2,3$ the numbers and minimum odd orders of the components cannot fit in $11-s$ vertices. At $s=4$ all seven remaining vertices would be isolates. Hence $H$ has a matching $M$ of size five. The graph $H-M$ is triangle-free, since any triangle in it would extend the five apex triangles.
+
+No vertex of $H$ can have degree four or five. A vertex of degree four in $H$ has a five-vertex link in $G$, and with its four neighbors in $H$ it induces $K_5$ with at most a matching deleted. If a vertex has degree five in $H$, its five neighbors in $H$ also induce $K_5$ with at most a matching deleted, by the six-vertex link restriction. In either case, deleting $M$ on those five vertices leaves a graph whose complement is the union of two disjoint sets of matching edges. That complement is bipartite and has an independent set of size at least three. Thus $H-M$ would contain a triangle.
+
+We have $\delta(H-M)\geq5$. This triangle-free graph on eleven vertices is bipartite. Otherwise a shortest odd cycle is chordless and has length $\ell\geq5$. Any vertex off the cycle has at most two neighbors on it. With three or more such neighbors the cyclic gaps are at least two, and an odd gap together with the outside vertex forms a shorter odd cycle because at least four edges lie in the other gaps. The degree sum on the cycle would then be at most $2\ell+2(11-\ell)=22$, contrary to the lower bound $5\ell$.
+
+One side of a bipartition of $H-M$ has at most five vertices, and meets all edges of $H-M$. Its spokes together with the five edges of $M$ cover all triangles of $G$. The cover has size at most ten and $\nu(G)=5$, contradicting the choice of $G$. This completes the proof.

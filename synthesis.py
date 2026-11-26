@@ -13,6 +13,7 @@ from pysat.card import CardEnc, EncType
 from pysat.formula import CNF, IDPool
 from pysat.solvers import Glucose4
 
+from link_reduction import forbid_link_reduction, reducible_link
 from structured import check_cover, check_packing, cover_cnf, export_proofs, model, packing_cnf, triangle_incidence
 
 
@@ -50,9 +51,10 @@ def cone_edge_lower_bound(order, k):
 
 
 class Domain:
-    def __init__(self, order, k, min_degree, missing_one=False):
+    def __init__(self, order, k, min_degree, missing_one=False, reduced=False):
         self.order = order
         self.k = k
+        self.reduced = reduced
         pool = IDPool()
         self.edges = {edge: pool.id(edge) for edge in combinations(range(order), 2)}
         self.triangles = {vs: pool.id(vs) for vs in combinations(range(order), 3)}
@@ -70,6 +72,9 @@ class Domain:
             if u == 0:
                 cnf.append([-e if missing_one and v == order - 1 else e])
             cnf.append([-e, *self.edge_triples[u, v]])
+            if reduced:
+                triangles = self.edge_triples[u, v]
+                cnf.extend([-e, *triangles[:i], *triangles[i+1:]] for i in range(len(triangles)))
         for vertex in range(1, order):
             require_at_least(cnf, [e for edge, e in self.edges.items() if vertex in edge], min_degree, pool)
         leaf_edges = [e for (u, _), e in self.edges.items() if u != 0]
@@ -157,7 +162,11 @@ def scan(domain, limit, output, export=None, earlier=()):
                     domain.cnf.to_file(str(export.with_suffix('.cnf')))
                 return {"status": "master-unsat", "initial_clauses": initial, "rejections": dict(counts)}
             graph = domain.graph(solver.get_model())
-            rejection, clause = refine(domain, graph)
+            witness = reducible_link(graph) if domain.reduced else None
+            if witness is None:
+                rejection, clause = refine(domain, graph)
+            else:
+                rejection, clause = "link", forbid_link_reduction(domain, witness)
             if rejection == "candidate":
                 if export is not None:
                     export_proofs(clause, export)
@@ -170,7 +179,10 @@ def scan(domain, limit, output, export=None, earlier=()):
             solver.add_clause(clause)
             counts[rejection] += 1
             if output is not None:
-                output.write(json.dumps({"reason": rejection, "clause": clause}) + "\n")
+                event = {"reason": rejection, "clause": clause}
+                if witness is not None:
+                    event["witness"] = witness
+                output.write(json.dumps(event) + "\n")
             if trial % 2500 == 0 and export is not None:
                 print(json.dumps({"trials": sum(counts.values()), "rejections": dict(counts)}), flush=True)
     return {"status": "trial-limit", "initial_clauses": initial, "rejections": dict(counts)}
@@ -188,6 +200,7 @@ if __name__ == "__main__":
     parser.add_argument("--packing", type=int, required=True)
     parser.add_argument("--min-degree", type=int, default=4)
     parser.add_argument("--missing-one", action="store_true", help="Use an anchor adjacent to all but one vertex")
+    parser.add_argument("--reduced", action="store_true", help="Search only for an edge-minimal counterexample")
     parser.add_argument("--limit", type=int, default=50000)
     parser.add_argument("--export", type=Path, required=True)
     parser.add_argument("--resume", action="store_true")
@@ -195,7 +208,7 @@ if __name__ == "__main__":
     if not 4 <= args.order <= 20 or not 1 <= args.packing or not 0 <= args.min_degree < args.order or args.limit < 1:
         parser.error("Invalid graph order, packing bound, degree, or trial limit")
     validate()
-    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one)
+    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one, args.reduced)
     log = args.export.with_suffix('.refinements.jsonl')
     earlier = ()
     if args.resume:
@@ -206,4 +219,5 @@ if __name__ == "__main__":
     with log.open('a' if args.resume else 'w', encoding='ascii') as output:
         result = scan(domain, args.limit, output, args.export, earlier)
     print(json.dumps({"order": args.order, "packing_bound": args.packing,
-                      "min_degree": args.min_degree, "anchor_degree": args.order - 1 - args.missing_one, **result}), flush=True)
+                      "min_degree": args.min_degree, "anchor_degree": args.order - 1 - args.missing_one,
+                      "reduced": args.reduced, **result}), flush=True)

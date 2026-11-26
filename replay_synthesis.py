@@ -53,6 +53,25 @@ def recover_cover(domain, clause):
     return find(required, 2 * domain.k)
 
 
+def check_link_clause(domain, clause, witness):
+    labels = set(range(domain.order))
+    apex = witness["apex"]
+    assert apex in labels
+    pairs = [tuple(pair) for pair in witness["matching"]]
+    endpoints = {v for pair in pairs for v in pair}
+    cover = set(witness["cover"])
+    scope = set(witness.get("scope", labels - {apex}))
+    assert pairs and len(endpoints) == 2 * len(pairs)
+    assert (endpoints | cover) <= scope <= labels - {apex} and len(cover) <= len(pairs)
+    required = {tuple(sorted((apex, *pair))) for pair in pairs}
+    assert required <= set(domain.triangles)
+    blocker = {-domain.triangles[triangle] for triangle in required}
+    blocker.update(literal for triangle, literal in domain.triangles.items()
+                   if apex in triangle and triangle not in required and cover.isdisjoint(triangle)
+                   and not scope.isdisjoint(triangle))
+    assert set(clause) == blocker
+
+
 def check_refinements(domain, path, append=True):
     inverse = {lit: edge for edge, lit in domain.edges.items()}
     edge_lits = set(inverse)
@@ -70,6 +89,10 @@ def check_refinements(domain, path, append=True):
                 assert set(clause) <= triangle_lits
                 witness = recover_cover(domain, set(clause))
                 assert witness is not None and domain.cover_rejection(witness) == clause, event
+            elif reason == "link":
+                assert domain.reduced
+                check_link_clause(domain, clause, event["witness"])
+                counts.setdefault("link", 0)
             else:
                 raise ValueError(f"Unknown refinement: {reason}")
             counts[reason] += 1
@@ -84,10 +107,11 @@ if __name__ == "__main__":
     parser.add_argument("--packing", type=int, required=True)
     parser.add_argument("--min-degree", type=int, required=True)
     parser.add_argument("--missing-one", action="store_true")
+    parser.add_argument("--reduced", action="store_true")
     parser.add_argument("--prefix", type=Path, required=True)
     parser.add_argument("--drat", action="store_true")
     args = parser.parse_args()
-    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one)
+    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one, args.reduced)
     counts = check_refinements(domain, args.prefix.with_suffix('.refinements.jsonl'))
     recorded = CNF(from_file=str(args.prefix.with_suffix('.cnf')))
     assert domain.cnf.clauses == recorded.clauses
