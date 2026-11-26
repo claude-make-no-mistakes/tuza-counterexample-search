@@ -6,6 +6,8 @@ Tuza's conjecture asks whether the minimum number of edges meeting every triangl
 
 The packing-seven proof uses the companion theorem for packing at most six. A shorter argument handles packing at most five. [Packing-six paper](packing-six.pdf) · [Packing-five paper](packing-five.pdf)
 
+**A minimal counterexample with packing number at most nine has a spanning maximum packing whose union is connected.** This limits packing-eight to orders 12–17 and packing-nine to order at most 19. The search can require the spanning packing and specify the anchor degree. [Paper](spanning-packing.pdf) · [Proof](SPANNING-PACKING.md) · [Exact link replay](small-links.jsonl)
+
 - Exact checks cover 11,117 connected graphs on eight vertices and 25,245 labeled one-vertex extensions of equality cases. [Graph catalogue](https://users.cecs.anu.edu.au/~bdm/data/graphs.html)
 - Explicit packings and covers certify the bound on 500 sampled graphs of orders 12–22 with high triangle overlap.
 - Independent certificate checks establish the conjecture on 12-vertex graphs with a universal vertex, minimum degree at least four, and packing number at most six. [Statement and certificate replay](CERTIFICATE.md)
@@ -18,6 +20,7 @@ The certificate families give a separate computational check on the small orders
 python search.py mckay-connected8.g6
 python extend_equality.py mckay-connected8.g6
 python structured.py --count 100
+python check_small_links.py
 ```
 
 Use Python 3.10, NetworkX 3.3, and `python-sat==1.9.dev25`. The eight-vertex graph data are from Brendan McKay's catalogue, CC BY 4.0. [Licence and source](https://users.cecs.anu.edu.au/~bdm/data/graphs.html)

@@ -11,6 +11,18 @@ Together with Kandasamy's maximum-degree-ten theorem, the certificates imply the
 - Every finite simple graph on at most twelve vertices with packing number at most six.
 - Every finite simple graph on at most thirteen vertices with packing number at most four.
 
+## Searching the packing-eight domain
+
+The spanning-packing theorem reduces packing eight to orders 12–17 with a vertex of degree at least eleven. For each order, choose an anchor degree from eleven through order minus one. The new encoding lets labels up to that degree be the anchor's neighbors and the other labels be its nonneighbors. The lexicographic maximum now ranges over permutations within each of those two groups. The cut constraints use the actual edge variables, and the averaged bound still uses the universal-vertex upper bound on the number of spokes within a cut. [Spanning-packing theorem](SPANNING-PACKING.md)
+
+The option `--spanning-packing` adds a separate selection variable for each triangle. Exactly eight are selected in the packing-eight run. Selected triangles must be present and can share no edge. Each vertex must lie in at least one selected triangle. Each actual triangle must meet a selected edge, as it would in any maximum packing. The packing and cover refinements still test for nine edge-disjoint triangles and for a cover of at most sixteen edges.
+
+```sh
+python synthesis.py --order 17 --anchor-degree 11 --packing 8 --min-degree 5 --reduced --spanning-packing --limit 3000 --export packing8-order17-degree11
+```
+
+If the master terminates as unsatisfiable, pass the same order, packing, degree, and encoding options to `replay_synthesis.py` with `--prefix` in place of `--export`. A trial-limit output is a bounded search and proves no slice unsatisfiable.
+
 ## Removing the minimum-degree and triangle-incidence assumptions
 
 Both classes in the corollary are closed under taking subgraphs. Choose a counterexample in either class with the fewest vertices and then the fewest edges. Deleting an edge in no triangle leaves $\tau$ and $\nu$ unchanged, so every edge lies in a triangle.

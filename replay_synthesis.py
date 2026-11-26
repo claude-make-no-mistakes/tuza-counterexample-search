@@ -107,11 +107,14 @@ if __name__ == "__main__":
     parser.add_argument("--packing", type=int, required=True)
     parser.add_argument("--min-degree", type=int, required=True)
     parser.add_argument("--missing-one", action="store_true")
+    parser.add_argument("--anchor-degree", type=int)
+    parser.add_argument("--spanning-packing", action="store_true")
     parser.add_argument("--reduced", action="store_true")
     parser.add_argument("--prefix", type=Path, required=True)
     parser.add_argument("--drat", action="store_true")
     args = parser.parse_args()
-    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one, args.reduced)
+    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one, args.reduced,
+                    anchor_degree=args.anchor_degree, spanning_packing=args.spanning_packing)
     counts = check_refinements(domain, args.prefix.with_suffix('.refinements.jsonl'))
     recorded = CNF(from_file=str(args.prefix.with_suffix('.cnf')))
     assert domain.cnf.clauses == recorded.clauses

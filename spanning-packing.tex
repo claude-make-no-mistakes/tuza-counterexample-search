@@ -1,0 +1,57 @@
+\documentclass[10pt]{article}
+\usepackage[letterpaper,hmargin=0.75in,vmargin=0.69in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,lmodern,microtype}
+\usepackage[hidelinks]{hyperref}
+\newtheorem*{theorem}{Theorem}
+\setlength{\emergencystretch}{1em}
+\title{Spanning packings in small Tuza counterexamples}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\vspace{-2.5em}
+For a finite simple graph $G$, let $\nu(G)$ be the maximum number of edge-disjoint triangles and let $\tau(G)$ be the minimum number of edges meeting every triangle. Call $G$ minimal if it violates $\tau(G)\leq2\nu(G)$ and every proper subgraph satisfies the inequality.
+
+\begin{theorem} In a minimal counterexample with $\nu(G)\leq9$, a maximum triangle packing covering the most vertices spans $G$, and its union is connected. In particular $|V(G)|\leq2\nu(G)+1$. The first unresolved packing number is eight, for which only orders 12 through 17 need to be searched.
+\end{theorem}
+
+\section{Reductions and small links}
+
+Minimality rules out isolated vertices and edges in fewer than two triangles. For an edge in exactly one triangle, delete the edges of that triangle. The triangle extends every remaining packing, and the two other edges of the triangle cover all lost triangles. In particular every link $L_v=G[N(v)]$ has minimum degree at least two.
+
+A nonempty matching $M$ in a link component with vertex set $W$, and a set $Q\subseteq W$ of at most $|M|$ vertices covering the edges of the component outside $M$, give a reduction. Remove the spokes from $v$ to $W$ and the edges of $M$. The triangles through $v$ on those matching edges extend any remaining packing. The edges of $M$ and the spokes to $Q$ extend any remaining cover. Thus no such link component exists in $G$. In particular a link component cannot be a cycle. A maximum alternating matching on an even cycle leaves a matching. On an odd cycle it leaves a two-edge path and isolated edges. Both residuals have a cover of size at most the size of the removed matching. Components of order four other than the cycle have a two-edge matching whose deletion leaves edges covered by the ends of either matching edge.
+
+Puleo's reductions now give minimum degree five in $G$. For links on five or six vertices their complements have maximum degree at most one and cannot have exactly two edges. Thus a five-vertex link has at least nine edges, and a six-vertex link has at least twelve. At seven, eight, or nine vertices the minimum degree in a link gives at least as many edges as vertices. Equality would give a union of cycles. The remaining cases with at most nine edges are $(7,8),(7,9),(8,9)$, in the order (vertices, edges). The \href{https://github.com/claude-make-no-mistakes/tuza-counterexample-search/blob/main/check_small_links.py}{exact link checker} enumerates every labeled graph of each size and exhibits a matching and a cover for each graph of minimum degree at least two. Apply the reduction to the full link using these witnesses. For links of order at least ten the degree bound gives at least ten edges. Therefore every link has at least nine edges, and a nine-edge link is necessarily $K_5$ minus one edge. \href{https://arxiv.org/pdf/1308.2211}{Puleo, Lemmas 2.6 and 2.7} \enspace \href{https://github.com/claude-make-no-mistakes/tuza-counterexample-search/blob/main/small-links.jsonl}{Finite log}
+
+\section{Every maximum packing has connected union}
+
+Let $\mathcal P$ be a maximum triangle packing. Each triangle of $G$ uses an edge of $\mathcal P$, or it could enlarge the packing. Form a graph on the triangles of $\mathcal P$, joining two when a triangle of $G$ contains an edge from each. Each triangle of $G$ then meets packed edges from just one component of this graph.
+
+For a component containing $s$ packed triangles, let $G_s$ be obtained by deleting the edges of the packed triangles from all other components. Its triangles are exactly those using a packed edge in this component. Its packing number is $s$, since a larger packing together with the deleted packed triangles would enlarge $\mathcal P$. If there were at least two components, every $G_s$ would be proper and hence would have a cover of size at most $2s$. The union of their covers would cover $G$ at cost at most $2\nu(G)$. This proves connectivity of the graph on packed triangles. Adjacent triangles in it share a vertex, so the union of the packed triangles is connected and covers at most $2\nu(G)+1$ vertices.
+
+\section{There is a spanning maximum packing at packing number at most nine}
+
+Choose a maximum packing $\mathcal P$ with the largest vertex support. Call a vertex private if it lies in exactly one packed triangle, and repeated if it lies in more than one. Let $X$ be the set of uncovered vertices. For $x\in X$, every triangle through $x$ must use a packed edge opposite $x$. Thus the edges of $L_x$ are all packed edges, and $X$ is independent since no edge lies in zero triangles.
+
+If $uv\in E(L_x)$ and $uvw$ is its packed triangle, then $w$ is private. Otherwise replacing $uvw$ with $xuv$ would increase the support. Now suppose a private vertex $v$ were adjacent to $x$. Since $v$ has degree at least two in $L_x$, both of its neighbors from its unique packed triangle are in $L_x$. All three edges of that triangle therefore belong to $L_x$. Applying the replacement argument to each edge makes all three vertices private. These vertices then give a triangle component in $L_x$, since none has any other packed edge. This is impossible. Hence every edge of $L_x$ has two repeated ends and lies in a packed triangle with a private third vertex. Such a packed triangle contributes at most one edge to $L_x$.
+
+Since $L_x$ has at least nine edges, $X$ is empty if $\nu(G)\leq8$. If $\nu(G)=9$ and $X$ is nonempty, all nine packed triangles have two repeated vertices and one private vertex. The opposite edge to each private vertex is present in every uncovered vertex's link. These nine edges form $F=K_5$ minus one edge, on a common neighbor set $R$ of five repeated vertices. Each packed triangle is $p_e+e$ for a distinct edge $e$ of $F$. Here $p_e$ denotes its private vertex.
+
+There is no edge between distinct private vertices $p_e,p_f$. If present, any triangle through that edge has its third vertex $r$ in $R$, because three private vertices cannot give a packed edge, and uncovered vertices have no private neighbors. If $r$ is an endpoint of neither $e$ nor $f$, the triangle avoids all packed edges. If $r$ is an endpoint of just one, say $f$, the triangle uses a packed edge only from $p_f+f$. Replacing that packed triangle by $p_e p_f r$ and $x+f$ yields ten edge-disjoint triangles, a contradiction. Thus a common endpoint of $e,f$ is the only possible third vertex. Since distinct edges have at most one common endpoint, this violates the requirement that every edge belong to at least two triangles.
+
+By minimum degree five, each private vertex is now adjacent to all five vertices of $R$. Fix one such vertex $p$ and one $x\in X$. With the missing edge of $F$ labeled $01$, take four triangles through $x,p$, using opposite edges $02,13$ at $x$ and $03,12$ at $p$. They are edge-disjoint. Cover every triangle meeting $\{x,p\}$ by the five edges $02,03,12,13,23$ in $F$ and the two spokes $x4,p4$. This cover contains all four opposite edges of the packing. Delete it and the remaining spokes at $x,p$. The four triangles extend any residual packing, and the seven cover edges extend any residual cover. This contradicts minimality. Hence $X$ is empty for packing number nine as well.
+
+Combining the spanning and connectivity arguments proves the order bound. The all-order result for $\nu\leq7$ rules out smaller packing numbers. Kandasamy's maximum-degree-ten theorem forces a vertex of degree at least eleven, which gives order at least twelve. A counterexample with packing number eight can therefore be chosen on 12 through 17 vertices. \href{https://github.com/claude-make-no-mistakes/tuza-counterexample-search/blob/main/PACKING-SEVEN.md}{Packing-seven proof} \enspace \href{https://arxiv.org/abs/2610.15269}{Kandasamy}
+
+At order seventeen, the incidence graph between vertices and the eight packed triangles is a tree with 25 nodes and 24 edges. Removing the node for a packed triangle $uvz$ leaves three branches. If $z$ is repeated and $uvw$ is a triangle using packed edges only from $uvz$, then $w$ lies in the branch containing $z$. Otherwise exchanging $uvz$ for $uvw$ would give a maximum packing with disconnected union. Every vertex of the $z$ branch remains covered after the exchange, because $z$ was repeated.
+
+\section{Further constraints on uncovered vertices}
+
+For an independent set $W$ let $B(W)$ be the union of the edge sets of its links. Every nonempty independent set satisfies $|B(W)|\geq2|W|+1$. Otherwise take an inclusion-minimal nonempty violation. Every proper nonempty subset $U$ has $|B(U)|\geq2|U|+1$. If $|W|>1$, removing a vertex gives $|B(W)|\geq2|W|-1\geq|W|$, and if $|W|=1$ its link is nonempty. Hall's theorem assigns distinct opposite edges to all vertices of $W$. The triangles using those edges are edge-disjoint because $W$ is independent. All triangles meeting $W$ are covered by $B(W)$, which includes the chosen opposite edges and costs at most $2|W|$. Deleting $B(W)$ and the spokes at $W$ gives a reduction, a contradiction.
+
+In particular, for any packing number $\nu$, the uncovered set $X$ of a maximum-support packing satisfies $|X|\leq\lfloor(\nu-1)/2\rfloor$ when nonempty. Indeed its links use only packed edges from two-repeated-vertex triangles, at most one per packed triangle. When $X$ is nonempty, even one link has a cycle by minimum degree two. Each edge of that cycle comes from a distinct packed triangle, so it lifts to a cycle in the incidence graph of $\mathcal P$. The incidence graph is connected and has $3\nu$ edges. Hence its support has at most $2\nu$ vertices, yielding $|V(G)|\leq2\nu+\lfloor(\nu-1)/2\rfloor$ when $X$ is nonempty.
+
+\section{Replay}
+Run \texttt{python check\_small\_links.py} with Python 3.10 or later. The standard-library checker enumerates orders and sizes $(7,8)$, $(7,9)$ and $(8,9)$. It verifies a matching and residual vertex cover on all $11{,}550$, $59{,}990$ and $140{,}420$ labeled graphs, respectively, of minimum degree at least two.
+\end{document}

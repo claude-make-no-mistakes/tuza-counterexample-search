@@ -51,10 +51,16 @@ def cone_edge_lower_bound(order, k):
 
 
 class Domain:
-    def __init__(self, order, k, min_degree, missing_one=False, reduced=False):
+    def __init__(self, order, k, min_degree, missing_one=False, reduced=False, *,
+                 anchor_degree=None, spanning_packing=False):
         self.order = order
         self.k = k
         self.reduced = reduced
+        if anchor_degree is not None and not min_degree <= anchor_degree < order:
+            raise ValueError("Anchor degree is incompatible with the order or minimum degree")
+        if anchor_degree is None:
+            anchor_degree = order - 1 - int(missing_one)
+        self.anchor_degree = anchor_degree
         pool = IDPool()
         self.edges = {edge: pool.id(edge) for edge in combinations(range(order), 2)}
         self.triangles = {vs: pool.id(vs) for vs in combinations(range(order), 3)}
@@ -70,7 +76,7 @@ class Domain:
 
         for (u, v), e in self.edges.items():
             if u == 0:
-                cnf.append([-e if missing_one and v == order - 1 else e])
+                cnf.append([e if v <= anchor_degree else -e])
             cnf.append([-e, *self.edge_triples[u, v]])
             if reduced:
                 triangles = self.edge_triples[u, v]
@@ -80,20 +86,39 @@ class Domain:
         leaf_edges = [e for (u, _), e in self.edges.items() if u != 0]
         require_at_least(cnf, leaf_edges, cone_edge_lower_bound(order, k), pool)
 
-        # A lexicographically maximal labeling fixing vertex 0 has these row comparisons.
-        end = order - int(missing_one)
-        for a, b in zip(range(1, end - 1), range(2, end), strict=True):
-            others = [v for v in range(1, order) if v != a and v != b]
-            left = [self.edges[tuple(sorted((a, v)))] for v in others]
-            right = [self.edges[tuple(sorted((b, v)))] for v in others]
-            lex_order(cnf, left, right, pool)
+        # Swaps within the anchor's neighbor classes preserve its adjacency row.
+        for start, end in ((1, anchor_degree + 1), (anchor_degree + 1, order)):
+            for a, b in zip(range(start, end - 1), range(start + 1, end), strict=True):
+                others = [v for v in range(1, order) if v != a and v != b]
+                left = [self.edges[tuple(sorted((a, v)))] for v in others]
+                right = [self.edges[tuple(sorted((b, v)))] for v in others]
+                lex_order(cnf, left, right, pool)
 
         rng = Random(587)
         for _ in range(18):
             inside = set(rng.sample(range(1, order), (order - 1) // 2)) | {0}
             inside_edges = [e for (u, v), e in self.edges.items() if (u in inside) == (v in inside)]
             require_at_least(cnf, inside_edges, 2 * k + 1, pool)
+        if spanning_packing:
+            self.add_spanning_packing(cnf, pool)
         self.cnf = cnf
+
+    def add_spanning_packing(self, cnf, pool):
+        selected = {vs: pool.id(("selected", vs)) for vs in self.triangles}
+        for vs, literal in selected.items():
+            cnf.append([-literal, self.triangles[vs]])
+        lits = list(selected.values())
+        require_at_least(cnf, lits, self.k, pool)
+        if self.k < len(lits):
+            cnf.extend(CardEnc.atmost(lits, self.k, vpool=pool, encoding=EncType.seqcounter).clauses)
+        by_triangle = {self.triangles[vs]: literal for vs, literal in selected.items()}
+        for incident in self.edge_triples.values():
+            cnf.extend([-by_triangle[a], -by_triangle[b]] for a, b in combinations(incident, 2))
+        for v in range(self.order):
+            cnf.append([literal for vs, literal in selected.items() if v in vs])
+        for vs, literal in self.triangles.items():
+            meeting = {by_triangle[t] for edge in self.triples[vs] for t in self.edge_triples[edge]}
+            cnf.append([-literal, *sorted(meeting)])
 
     def graph(self, assignment):
         positive = {v for v in assignment if v > 0}
@@ -200,6 +225,8 @@ if __name__ == "__main__":
     parser.add_argument("--packing", type=int, required=True)
     parser.add_argument("--min-degree", type=int, default=4)
     parser.add_argument("--missing-one", action="store_true", help="Use an anchor adjacent to all but one vertex")
+    parser.add_argument("--anchor-degree", type=int, help="Set the anchor degree exactly")
+    parser.add_argument("--spanning-packing", action="store_true", help="Require a spanning maximal packing of the specified size")
     parser.add_argument("--reduced", action="store_true", help="Search only for an edge-minimal counterexample")
     parser.add_argument("--limit", type=int, default=50000)
     parser.add_argument("--export", type=Path, required=True)
@@ -207,8 +234,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if not 4 <= args.order <= 20 or not 1 <= args.packing or not 0 <= args.min_degree < args.order or args.limit < 1:
         parser.error("Invalid graph order, packing bound, degree, or trial limit")
+    if args.anchor_degree is not None and (args.missing_one or not args.min_degree <= args.anchor_degree < args.order):
+        parser.error("An explicit anchor degree must be valid and cannot be combined with --missing-one")
     validate()
-    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one, args.reduced)
+    domain = Domain(args.order, args.packing, args.min_degree, args.missing_one, args.reduced,
+                    anchor_degree=args.anchor_degree, spanning_packing=args.spanning_packing)
     log = args.export.with_suffix('.refinements.jsonl')
     earlier = ()
     if args.resume:
@@ -219,5 +249,5 @@ if __name__ == "__main__":
     with log.open('a' if args.resume else 'w', encoding='ascii') as output:
         result = scan(domain, args.limit, output, args.export, earlier)
     print(json.dumps({"order": args.order, "packing_bound": args.packing,
-                      "min_degree": args.min_degree, "anchor_degree": args.order - 1 - args.missing_one,
+                      "min_degree": args.min_degree, "anchor_degree": domain.anchor_degree,
                       "reduced": args.reduced, **result}), flush=True)
