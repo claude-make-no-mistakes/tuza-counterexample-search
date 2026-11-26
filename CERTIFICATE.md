@@ -23,6 +23,8 @@ python synthesis.py --order 17 --anchor-degree 11 --packing 8 --min-degree 5 --r
 
 If the master terminates as unsatisfiable, pass the same order, packing, degree, and encoding options to `replay_synthesis.py` with `--prefix` in place of `--export`. A trial-limit output is a bounded search and proves no slice unsatisfiable.
 
+The pilots at orders 12 and 17, both with anchor degree eleven, reached their trial limits. Independent replay checked 23,000 and 3,000 refinement clauses, respectively. To resume, decompress the appropriate log and name it `<prefix>.refinements.jsonl`, then pass `--resume --export <prefix>` with the same encoding options. [Pilot results and log paths](packing-eight-pilot.jsonl)
+
 ## Removing the minimum-degree and triangle-incidence assumptions
 
 Both classes in the corollary are closed under taking subgraphs. Choose a counterexample in either class with the fewest vertices and then the fewest edges. Deleting an edge in no triangle leaves $\tau$ and $\nu$ unchanged, so every edge lies in a triangle.

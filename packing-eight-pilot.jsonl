@@ -1,0 +1,2 @@
+{"order": 12, "anchor_degree": 11, "packing_bound": 8, "min_degree": 5, "status": "trial-limit", "initial_clauses": 22291, "refinements_checked": {"packing": 2119, "cover": 0, "link": 20881}, "log": "certificates/packing8-order12-degree11.pilot.refinements.jsonl.gz"}
+{"order": 17, "anchor_degree": 11, "packing_bound": 8, "min_degree": 5, "status": "trial-limit", "initial_clauses": 76951, "refinements_checked": {"packing": 0, "cover": 0, "link": 3000}, "log": "certificates/packing8-order17-degree11.pilot.refinements.jsonl.gz"}
