@@ -1,3 +1,3 @@
 # X post draft
 
-Tuza’s conjecture holds for every finite simple graph with triangle packing number at most five. The proof uses the Tutte–Berge formula and Kandasamy’s maximum-degree-ten theorem. The general conjecture remains open. [paper link]
+Tuza’s inequality holds for every finite simple graph with triangle packing number at most six. The proof uses the Tutte–Berge formula, the Gallai–Edmonds decomposition and Kandasamy’s maximum-degree-ten theorem. [paper link]
