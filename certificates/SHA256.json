@@ -142,5 +142,17 @@
   "tuza-cone13-k3.refinements.jsonl.gz": {
     "uncompressed_bytes": 585223,
     "uncompressed_sha256": "09c6381751c84d701650ceae4b4c87e06fb541531142c67f68d7df8102fc77e9"
+  },
+  "tuza-cone13-k4.cnf.gz": {
+    "uncompressed_bytes": 3011451,
+    "uncompressed_sha256": "9ef8e04e6ecea5b237bfd188dfcd6723c0214d25120f43fb126e6e2118322f0a"
+  },
+  "tuza-cone13-k4.drat.gz": {
+    "uncompressed_bytes": 10665471,
+    "uncompressed_sha256": "834a6c37fad6530dd95653ce3ddc95283125a2db18f5fc1a3bd7109023477cb1"
+  },
+  "tuza-cone13-k4.refinements.jsonl.gz": {
+    "uncompressed_bytes": 5034439,
+    "uncompressed_sha256": "c3ac1d95b8d3143d8e331f336d5fe40fd3e7a77edd0e7d64acda78fd37ca0315"
   }
 }

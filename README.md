@@ -6,9 +6,9 @@ Tuza's conjecture asks whether the minimum number of edges meeting every triangl
 - Explicit packings and covers certify the bound on 500 sampled graphs of orders 12–22 with high triangle overlap.
 - Independent certificate checks establish the conjecture on 12-vertex graphs with a universal vertex, minimum degree at least four, and packing number at most five. [Statement and certificate replay](CERTIFICATE.md)
 - The 13-vertex certificates cover minimum degree at least four, a vertex of degree exactly eleven, every edge in a triangle, and packing number at most four. [Statement and certificate replay](CERTIFICATE.md#changes-for-thirteen-vertices)
-- Three further certificates cover 13-vertex graphs with a universal vertex, minimum degree at least four, and packing number at most three.
+- Four further certificates cover 13-vertex graphs with a universal vertex, minimum degree at least four, and packing number at most four.
 
-Combining these certificates with Kandasamy's theorem and an elementary reduction proves the inequality for all finite simple graphs on at most twelve vertices with packing number at most five, and on at most thirteen vertices with packing number at most three. At thirteen vertices the bound rises to four when the maximum degree is at most eleven. [Proof of the corollaries](CERTIFICATE.md#removing-the-minimum-degree-and-triangle-incidence-assumptions)
+Combining these certificates with Kandasamy's theorem and an elementary reduction proves the inequality for all finite simple graphs on at most twelve vertices with packing number at most five, and on at most thirteen vertices with packing number at most four. [Proof of the corollaries](CERTIFICATE.md#removing-the-minimum-degree-and-triangle-incidence-assumptions)
 
 ```sh
 python search.py mckay-connected8.g6
