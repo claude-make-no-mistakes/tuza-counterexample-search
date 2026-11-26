@@ -1,6 +1,6 @@
 # Finite Tuza certificates for graphs with a high-degree vertex
 
-Let $G$ be a simple graph on twelve vertices with a universal vertex and minimum degree at least four. Write $\nu(G)$ for its triangle packing number and $\tau(G)$ for its triangle edge-cover number. The checked certificates establish $\tau(G)\leq2\nu(G)$ when $\nu(G)\leq5$.
+Let $G$ be a simple graph on twelve vertices with a universal vertex and minimum degree at least four. Write $\nu(G)$ for its triangle packing number and $\tau(G)$ for its triangle edge-cover number. The checked certificates establish $\tau(G)\leq2\nu(G)$ when $\nu(G)\leq6$. The packing-six manuscript proves the same inequality at every order. [Analytic proof](PACKING-SIX.md)
 
 The thirteen-vertex case uses a vertex of degree exactly eleven, minimum degree at least four, and the additional condition that every edge lies in a triangle. The four certificates give $\tau(G)\leq2\nu(G)$ for $\nu(G)\leq4$ in this class.
 
@@ -8,7 +8,7 @@ Four additional certificates give $\tau(G)\leq2\nu(G)$ when $G$ has thirteen ver
 
 Together with Kandasamy's maximum-degree-ten theorem, the certificates imply the following cases of Tuza's conjecture without minimum-degree or triangle-incidence assumptions. [Kandasamy's theorem](https://arxiv.org/abs/2610.15269)
 
-- Every finite simple graph on at most twelve vertices with packing number at most five.
+- Every finite simple graph on at most twelve vertices with packing number at most six.
 - Every finite simple graph on at most thirteen vertices with packing number at most four.
 
 ## Removing the minimum-degree and triangle-incidence assumptions
@@ -39,7 +39,9 @@ Among labelings fixing $0$, choose one that maximizes the upper-triangular adjac
 
 Each packing refinement forbids the simultaneous presence of the edges of a particular packing of $k+1$ edge-disjoint triangles. Each cover refinement requires at least one triangle disjoint from a particular edge set of size at most $2k$. Either requirement holds for every graph with $\nu(G)\leq k$ and $\tau(G)>2k$. The replay checks packing refinements by partitioning their edges into triangles. For cover refinements, it reconstructs an edge set that is disjoint from exactly the triangles in the logged clause. It rebuilds the master CNF from these verified refinements and requires equality with the stored master. A separate SAT solver and DRAT-trim check unsatisfiability.
 
-Certificates for $k=1,2,3,4,5$ therefore exclude $\nu(G)\leq k$ and $\tau(G)>2k$ for each successive threshold. Taking $k=\nu(G)$ proves the stated inequality, with the zero case immediate.
+Certificates for $k=1,2,3,4,5,6$ exclude $\nu(G)\leq k$ and $\tau(G)>2k$ for each successive threshold. Taking $k=\nu(G)$ proves the stated inequality, with the zero case immediate.
+
+For packing six, the replay verified 411,520 packing refinements and 807 cover refinements. It rebuilt the 423,382-clause formula, matched it to the archived CNF, and checked unsatisfiability with CaDiCaL. Glucose generated the proof accepted by DRAT-trim. [Verification record](certificates/tuza-cone12-k6.verified.txt)
 
 ## Changes for thirteen vertices
 
@@ -88,6 +90,8 @@ Unpack the gzip files in the certificates directory. For each prefix, run the in
 
     python replay_synthesis.py --order 12 --min-degree 4 --packing 4 --prefix certificates/tuza-cone12-k4
     drat-trim certificates/tuza-cone12-k4.cnf certificates/tuza-cone12-k4.drat
+    python replay_synthesis.py --order 12 --min-degree 4 --packing 6 --prefix certificates/tuza-cone12-k6
+    drat-trim certificates/tuza-cone12-k6.cnf certificates/tuza-cone12-k6.drat
     python replay_synthesis.py --order 13 --min-degree 4 --packing 4 --missing-one --prefix certificates/tuza-near-cone13-k4
     drat-trim certificates/tuza-near-cone13-k4.cnf certificates/tuza-near-cone13-k4.drat
     python replay_synthesis.py --order 13 --min-degree 4 --packing 4 --prefix certificates/tuza-cone13-k4
