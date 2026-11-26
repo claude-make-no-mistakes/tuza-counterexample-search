@@ -2,9 +2,9 @@
 
 Tuza's conjecture asks whether the minimum number of edges meeting every triangle is at most twice the maximum number of edge-disjoint triangles. We searched structured graphs and used independently checked SAT certificates for restricted cases. The full conjecture remains open. [Conjecture and general bound](https://arxiv.org/abs/2609.13831)
 
-**The inequality holds for every finite simple graph with triangle packing number at most six.** The proof treats every graph order and uses Kandasamy's maximum-degree-ten theorem, the Tutte–Berge formula, and the Gallai–Edmonds decomposition. A separate referee checked the argument. [Paper](packing-six.pdf) · [Proof in Markdown](PACKING-SIX.md) · [LaTeX source](packing-six.tex)
+**The inequality holds for every finite simple graph with triangle packing number at most seven.** The proof covers every order using Kandasamy’s maximum-degree-ten theorem, Puleo’s local reductions, and matching theory. Three independent referees checked the assembled proof. [Paper](packing-seven.pdf) · [Proof in Markdown](PACKING-SEVEN.md) · [LaTeX source](packing-seven.tex)
 
-A shorter argument handles packing at most five using only the maximum-degree theorem and Tutte–Berge. [Packing-five paper](packing-five.pdf)
+The packing-seven proof uses the companion theorem for packing at most six. A shorter argument handles packing at most five. [Packing-six paper](packing-six.pdf) · [Packing-five paper](packing-five.pdf)
 
 - Exact checks cover 11,117 connected graphs on eight vertices and 25,245 labeled one-vertex extensions of equality cases. [Graph catalogue](https://users.cecs.anu.edu.au/~bdm/data/graphs.html)
 - Explicit packings and covers certify the bound on 500 sampled graphs of orders 12–22 with high triangle overlap.
