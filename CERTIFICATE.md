@@ -4,6 +4,24 @@ Let $G$ be a simple graph on twelve vertices with a universal vertex and minimum
 
 The thirteen-vertex case uses a vertex of degree exactly eleven, minimum degree at least four, and the additional condition that every edge lies in a triangle. The four certificates give $\tau(G)\leq2\nu(G)$ for $\nu(G)\leq4$ in this class.
 
+Three additional certificates give $\tau(G)\leq2\nu(G)$ when $G$ has thirteen vertices, a universal vertex, minimum degree at least four, and $\nu(G)\leq3$. Their master formulas use the same cone constraints as at order twelve, with twelve noncentral vertices.
+
+Together with Kandasamy's maximum-degree-ten theorem, the certificates imply the following cases of Tuza's conjecture without minimum-degree or triangle-incidence assumptions. [Kandasamy's theorem](https://arxiv.org/abs/2610.15269)
+
+- Every finite simple graph on at most twelve vertices with packing number at most five.
+- Every finite simple graph on at most thirteen vertices with maximum degree at most eleven and packing number at most four.
+- Every finite simple graph on at most thirteen vertices with packing number at most three.
+
+## Removing the minimum-degree and triangle-incidence assumptions
+
+All three classes in the corollary are closed under taking subgraphs. Choose a counterexample in one class with the fewest vertices and then the fewest edges. Deleting an edge in no triangle leaves $\tau$ and $\nu$ unchanged, so every edge lies in a triangle.
+
+Suppose a vertex $v$ has degree at most three. If it lies in no triangle, delete it. Otherwise, if it lies in one or two triangles, form $H$ by deleting $v$ and the one or two edges opposite $v$ in those triangles. Add those opposite edges to any triangle cover of $H$ to cover $G$. If $v$ lies in three triangles, its neighbors are a triangle $abc$. Form $H$ by deleting $v$ and edge $ab$. Adding $ab$ and $vc$ to a triangle cover of $H$ covers $G$.
+
+In both cases with at least one triangle through $v$, any packing in $H$ can be extended by a triangle through $v$ whose opposite edge was deleted. Thus $\nu(G)\geq\nu(H)+1$ and $\tau(G)\leq\tau(H)+2$. Since $H$ has fewer vertices, this contradicts the choice of $G$. The minimum degree of $G$ is at least four.
+
+Kandasamy's theorem forces maximum degree at least eleven. Any remaining graph of order twelve has a universal vertex and is covered by the first family of certificates. The remaining graphs of order thirteen have maximum degree eleven or twelve. If the maximum degree is eleven, use the certificates for a degree-eleven vertex with one nonneighbor. If it is twelve, the packing bound is three, so use the thirteen-vertex cone certificates.
+
 ## Why the encoding covers this class
 
 Fix a label $0$ for the universal vertex. An edge variable records whether an edge is in $G$, and a triangle variable is true exactly when its three edge variables are true. All leaf-graph edges lie in triangles through $0$. A spoke also belongs to a triangle because its other endpoint has at least three neighbors among the other noncentral vertices. Thus the requirement that every edge belongs to a triangle preserves every graph in the stated class.
@@ -56,5 +74,7 @@ Unpack the gzip files in the certificates directory. For each prefix, run the in
     drat-trim certificates/tuza-cone12-k4.cnf certificates/tuza-cone12-k4.drat
     python replay_synthesis.py --order 13 --min-degree 4 --packing 4 --missing-one --prefix certificates/tuza-near-cone13-k4
     drat-trim certificates/tuza-near-cone13-k4.cnf certificates/tuza-near-cone13-k4.drat
+    python replay_synthesis.py --order 13 --min-degree 4 --packing 3 --prefix certificates/tuza-cone13-k3
+    drat-trim certificates/tuza-cone13-k3.cnf certificates/tuza-cone13-k3.drat
 
 On MinGW, compiling DRAT-trim with the flag -Dgetc_unlocked=getc replaces its single-threaded file-reading primitive with the available equivalent. The retained verification summaries record the checker result.
