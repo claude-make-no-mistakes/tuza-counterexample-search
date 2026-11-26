@@ -71,7 +71,7 @@ The encoding uses $s$ in place of $11s/12$. This increases the averaged expressi
 
 The refinement semantics are unchanged. For each $k=1,2,3,4$, the certificate excludes a graph with $\nu(G)\leq k$ and $\tau(G)>2k$. For a graph with packing number from one to four, use the certificate with $k=\nu(G)$.
 
-The four masters use 187,145 refinements altogether. A fresh referee independently verified every logged witness and its position in the saved master CNF. DRAT-trim accepted every proof. This verifies the stated finite class.
+The four masters use 187,145 refinements altogether. Independent replay verifies every logged witness and its position in the saved master CNF. DRAT-trim accepted every proof. This verifies the stated finite class.
 
 ### The packing number is at least three
 
