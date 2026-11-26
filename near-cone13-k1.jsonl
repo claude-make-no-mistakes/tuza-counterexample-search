@@ -1,0 +1,1 @@
+{"order": 13, "packing_bound": 1, "min_degree": 4, "anchor_degree": 11, "status": "master-unsat", "initial_clauses": 5606, "rejections": {"packing": 402}}

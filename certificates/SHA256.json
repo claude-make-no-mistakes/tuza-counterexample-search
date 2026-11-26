@@ -58,5 +58,53 @@
   "tuza-cone12-k5.refinements.jsonl.gz": {
     "uncompressed_bytes": 15217450,
     "uncompressed_sha256": "807385c531c1773f15417a90f6d2bd2bdbb32e7b36894bf301ff6e272d279bad"
+  },
+  "tuza-near-cone13-k1.cnf.gz": {
+    "uncompressed_bytes": 95694,
+    "uncompressed_sha256": "41339d898090396685e6878007353fc8925c80d63ad170e7e63100e87743a5f5"
+  },
+  "tuza-near-cone13-k1.drat.gz": {
+    "uncompressed_bytes": 14466,
+    "uncompressed_sha256": "6ddf9d7dffea276dc83358b3b2c5fdccadabf095bd87cbc136270ef0f6979fa3"
+  },
+  "tuza-near-cone13-k1.refinements.jsonl.gz": {
+    "uncompressed_bytes": 25902,
+    "uncompressed_sha256": "2ee25e02e510fc697bc59d2a6979cc0aebba29f000bd05a4559aea099668858c"
+  },
+  "tuza-near-cone13-k2.cnf.gz": {
+    "uncompressed_bytes": 276343,
+    "uncompressed_sha256": "1694fa0ced7efcff339245c419a19a4f4f75b077c8dcb37c7618e0a74be4a85b"
+  },
+  "tuza-near-cone13-k2.drat.gz": {
+    "uncompressed_bytes": 2187009,
+    "uncompressed_sha256": "b6fffd43a3b5935653adaf52abfd8e9aaac5a089fbdf6ab735bc4b1727043ae6"
+  },
+  "tuza-near-cone13-k2.refinements.jsonl.gz": {
+    "uncompressed_bytes": 324944,
+    "uncompressed_sha256": "6cd78fab9f643c9e08fd3d88c9bfa445618d44b60a8e284c62ae0d6b680b8644"
+  },
+  "tuza-near-cone13-k3.cnf.gz": {
+    "uncompressed_bytes": 1469815,
+    "uncompressed_sha256": "ce1e6689d26455e1462d5509a9bb69096bad00080a8cea167d1eb1293f4b90e2"
+  },
+  "tuza-near-cone13-k3.drat.gz": {
+    "uncompressed_bytes": 18257507,
+    "uncompressed_sha256": "daedd5e89af4a307afbcf60cd924dece6e501935114fdd3a998945c34692b67f"
+  },
+  "tuza-near-cone13-k3.refinements.jsonl.gz": {
+    "uncompressed_bytes": 2498464,
+    "uncompressed_sha256": "299c87457ca96c7057e39cb9f67a4550289f464c77acd1544a55c24f252f785d"
+  },
+  "tuza-near-cone13-k4.cnf.gz": {
+    "uncompressed_bytes": 9587325,
+    "uncompressed_sha256": "6a4603b8a6df3c308331ae3a3622348509ca11a6dc43e40b42eff992b320723e"
+  },
+  "tuza-near-cone13-k4.drat.gz": {
+    "uncompressed_bytes": 73096362,
+    "uncompressed_sha256": "f74b5d817a7ba4d7d06d4078644a1ab114b2a25a209a10a3e84833a17355857a"
+  },
+  "tuza-near-cone13-k4.refinements.jsonl.gz": {
+    "uncompressed_bytes": 16737137,
+    "uncompressed_sha256": "532da935827ecc3a90c9281dd8143fd32ae9570eee189e7b127da771cfb5c679"
   }
 }

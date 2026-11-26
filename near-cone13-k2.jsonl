@@ -1,0 +1,2 @@
+{"trials": 2500, "rejections": {"packing": 2500}}
+{"order": 13, "packing_bound": 2, "min_degree": 4, "anchor_degree": 11, "status": "master-unsat", "initial_clauses": 7930, "rejections": {"packing": 4127}}

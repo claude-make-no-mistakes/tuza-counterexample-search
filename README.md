@@ -5,6 +5,9 @@ Tuza's conjecture asks whether the minimum number of edges meeting every triangl
 - Exact checks cover 11,117 connected graphs on eight vertices and 25,245 labeled one-vertex extensions of equality cases. [Graph catalogue](https://users.cecs.anu.edu.au/~bdm/data/graphs.html)
 - Explicit packings and covers certify the bound on 500 sampled graphs of orders 12–22 with high triangle overlap.
 - Independent certificate checks establish the conjecture on 12-vertex graphs with a universal vertex, minimum degree at least four, and packing number at most five. [Statement and certificate replay](CERTIFICATE.md)
+- The 13-vertex certificates cover minimum degree at least four, a vertex of degree exactly eleven, every edge in a triangle, and packing number at most four. [Statement and certificate replay](CERTIFICATE.md#changes-for-thirteen-vertices)
+
+Both certificate families target graphs beyond maximum degree ten, where Kandasamy's proof already applies. [Maximum-degree-ten theorem](https://arxiv.org/abs/2610.15269)
 
 ```sh
 python search.py mckay-connected8.g6
