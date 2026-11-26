@@ -1,0 +1,40 @@
+{"trials": 27500, "rejections": {"packing": 27500}}
+{"trials": 30000, "rejections": {"packing": 30000}}
+{"trials": 32500, "rejections": {"packing": 32500}}
+{"trials": 35000, "rejections": {"packing": 35000}}
+{"trials": 37500, "rejections": {"packing": 37500}}
+{"trials": 40000, "rejections": {"packing": 40000}}
+{"trials": 42500, "rejections": {"packing": 42500}}
+{"trials": 45000, "rejections": {"packing": 45000}}
+{"trials": 47500, "rejections": {"packing": 47500}}
+{"trials": 50000, "rejections": {"packing": 50000}}
+{"trials": 52500, "rejections": {"packing": 52500}}
+{"trials": 55000, "rejections": {"packing": 55000}}
+{"trials": 57500, "rejections": {"packing": 57500}}
+{"trials": 60000, "rejections": {"packing": 60000}}
+{"trials": 62500, "rejections": {"packing": 62499, "cover": 1}}
+{"trials": 65000, "rejections": {"packing": 64998, "cover": 2}}
+{"trials": 67500, "rejections": {"packing": 67497, "cover": 3}}
+{"trials": 70000, "rejections": {"packing": 69996, "cover": 4}}
+{"trials": 72500, "rejections": {"packing": 72493, "cover": 7}}
+{"trials": 75000, "rejections": {"packing": 74993, "cover": 7}}
+{"trials": 77500, "rejections": {"packing": 77485, "cover": 15}}
+{"trials": 80000, "rejections": {"packing": 79985, "cover": 15}}
+{"trials": 82500, "rejections": {"packing": 82485, "cover": 15}}
+{"trials": 85000, "rejections": {"packing": 84983, "cover": 17}}
+{"trials": 87500, "rejections": {"packing": 87482, "cover": 18}}
+{"trials": 90000, "rejections": {"packing": 89977, "cover": 23}}
+{"trials": 92500, "rejections": {"packing": 92443, "cover": 57}}
+{"trials": 95000, "rejections": {"packing": 94943, "cover": 57}}
+{"trials": 97500, "rejections": {"packing": 97443, "cover": 57}}
+{"trials": 100000, "rejections": {"packing": 99941, "cover": 59}}
+{"trials": 102500, "rejections": {"packing": 102435, "cover": 65}}
+{"trials": 105000, "rejections": {"packing": 104931, "cover": 69}}
+{"trials": 107500, "rejections": {"packing": 107416, "cover": 84}}
+{"trials": 110000, "rejections": {"packing": 109912, "cover": 88}}
+{"trials": 112500, "rejections": {"packing": 112406, "cover": 94}}
+{"trials": 115000, "rejections": {"packing": 114902, "cover": 98}}
+{"trials": 117500, "rejections": {"packing": 117401, "cover": 99}}
+{"trials": 120000, "rejections": {"packing": 119894, "cover": 106}}
+{"trials": 122500, "rejections": {"packing": 122380, "cover": 120}}
+{"order": 12, "packing_bound": 5, "min_degree": 4, "anchor_degree": 11, "status": "master-unsat", "initial_clauses": 10375, "rejections": {"packing": 124842, "cover": 153}}

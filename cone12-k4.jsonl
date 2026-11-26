@@ -1,0 +1,9 @@
+{"trials": 2500, "rejections": {"packing": 2500}}
+{"trials": 5000, "rejections": {"packing": 5000}}
+{"trials": 7500, "rejections": {"packing": 7500}}
+{"trials": 10000, "rejections": {"packing": 10000}}
+{"trials": 12500, "rejections": {"packing": 12500}}
+{"trials": 15000, "rejections": {"packing": 14998, "cover": 2}}
+{"trials": 17500, "rejections": {"packing": 17493, "cover": 7}}
+{"trials": 20000, "rejections": {"packing": 19992, "cover": 8}}
+{"order": 12, "packing_bound": 4, "min_degree": 4, "status": "master-unsat", "initial_clauses": 9343, "rejections": {"packing": 21482, "cover": 18}}
