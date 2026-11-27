@@ -1,26 +1,33 @@
-# Tuza's conjecture counterexample search
+# Tuza's Conjecture Counterexample Search
 
-Tuza's conjecture asks whether the minimum number of edges meeting every triangle is at most twice the maximum number of edge-disjoint triangles. We searched structured graphs and used independently checked SAT certificates for restricted cases. The full conjecture remains open. [Conjecture and general bound](https://arxiv.org/abs/2609.13831)
+Tuza's conjecture asks whether the minimum number of edges meeting every triangle of a finite simple graph $G$, denoted $\tau(G)$, is at most twice the maximum number of edge-disjoint triangles, denoted $\nu(G)$. This repository combines analytic proofs for small triangle packing numbers, structural order bounds for minimal counterexamples, exhaustive small-order checks, and independently verified SAT/DRAT certificates for restricted graph classes. The full conjecture remains open. ([Conjecture and general bound](https://arxiv.org/abs/2609.13831))
 
-**The inequality holds for every finite simple graph with triangle packing number at most seven.** The proof covers every order using Kandasamy’s maximum-degree-ten theorem, Puleo’s local reductions, and matching theory. Three independent referees checked the assembled proof. [Paper](packing-seven.pdf) · [Proof in Markdown](PACKING-SEVEN.md) · [LaTeX source](packing-seven.tex)
+## Analytic results
 
-The packing-seven proof uses the companion theorem for packing at most six. A shorter argument handles packing at most five. [Packing-six paper](packing-six.pdf) · [Packing-five paper](packing-five.pdf)
+- **$\nu(G) \le 7$ (all orders):** Every finite simple graph with triangle packing number at most seven satisfies $\tau(G) \le 2\nu(G)$. The proof uses Kandasamy's maximum-degree-ten theorem, Puleo's local reductions, and matching theory. [Paper (PDF)](packing-seven.pdf) · [Markdown](PACKING-SEVEN.md) · [LaTeX](packing-seven.tex)
+- **$\nu(G) \le 6$ and $\nu(G) \le 5$ (all orders):** Companion proofs establishing $\tau(G) \le 2\nu(G)$ for $\nu(G) \le 6$ (used in the $\nu \le 7$ proof) and a shorter self-contained argument for $\nu(G) \le 5$. [Packing-six PDF](packing-six.pdf) ([Markdown](PACKING-SIX.md), [LaTeX](packing-six.tex)) · [Packing-five PDF](packing-five.pdf) ([Markdown](PACKING-FIVE.md), [LaTeX](packing-five.tex))
+- **Spanning packings and order bounds ($\nu(G) \le 9$):** Every minimal counterexample with $\nu(G) \le 9$ has a spanning maximum triangle packing whose union is connected, implying $|V(G)| \le 2\nu(G) + 1$. This restricts the first unresolved case $\nu(G) = 8$ to orders $12$–$17$ and $\nu(G) = 9$ to order at most $19$. [Paper (PDF)](spanning-packing.pdf) · [Markdown](SPANNING-PACKING.md) · [LaTeX](spanning-packing.tex) · [Exact link log](small-links.jsonl)
 
-**A minimal counterexample with packing number at most nine has a spanning maximum packing whose union is connected.** This limits packing-eight to orders 12–17 and packing-nine to order at most 19. The search can require the spanning packing and specify the anchor degree. [Paper](spanning-packing.pdf) · [Proof](SPANNING-PACKING.md) · [Exact link replay](small-links.jsonl)
+## Computational verification and certificates
 
-- Exact checks cover 11,117 connected graphs on eight vertices and 25,245 labeled one-vertex extensions of equality cases. [Graph catalogue](https://users.cecs.anu.edu.au/~bdm/data/graphs.html)
-- Explicit packings and covers certify the bound on 500 sampled graphs of orders 12–22 with high triangle overlap.
-- Independent certificate checks establish the conjecture on 12-vertex graphs with a universal vertex, minimum degree at least four, and packing number at most six. [Statement and certificate replay](CERTIFICATE.md)
-- The 13-vertex certificates cover minimum degree at least four, a vertex of degree exactly eleven, every edge in a triangle, and packing number at most four. [Statement and certificate replay](CERTIFICATE.md#changes-for-thirteen-vertices)
-- Four further certificates cover 13-vertex graphs with a universal vertex, minimum degree at least four, and packing number at most four.
+- **Small-order exact checks:** Exhaustive verification covers all $11{,}117$ connected graphs on eight vertices (`order8.jsonl`) and all $25{,}245$ labeled connected one-vertex extensions of the $99$ nontrivial equality graphs (`equality-extensions.jsonl`). Eight-vertex graph data are from Brendan McKay's catalogue (CC BY 4.0). ([Graph catalogue](https://users.cecs.anu.edu.au/~bdm/data/graphs.html))
+- **Structured search:** Explicit packing and cover witnesses certify $\tau(G) \le 2\nu(G)$ on $500$ sampled triangle-dense graphs of orders $12$–$22$ (`structured.jsonl`).
+- **SAT/DRAT certificates:** Independently replayed master formulas and DRAT-trim proofs establish $\tau(G) \le 2\nu(G)$ for:
+  - all $12$-vertex graphs with a universal vertex, minimum degree at least $4$, and $\nu(G) \le 6$ (`tuza-cone12-k1` through `k6`);
+  - all $13$-vertex graphs with a vertex of degree $11$, minimum degree at least $4$, every edge in a triangle, and $\nu(G) \le 4$ (`tuza-near-cone13-k1` through `k4`);
+  - all $13$-vertex graphs with a universal vertex, minimum degree at least $4$, and $\nu(G) \le 4$ (`tuza-cone13-k1` through `k4`).
 
-The certificate families give a separate computational check on the small orders. The optional reduced search implements scoped link reductions and independently replays each recorded clause. [Certificates and search](CERTIFICATE.md)
+  See [CERTIFICATE.md](CERTIFICATE.md) for the exact statements, encoding soundness proofs, scoped link reductions, packing-eight pilot runs, and full replay instructions.
+
+## Reproduction
+
+Tested with Python 3.10+ (including Python 3.12), NetworkX 3.3+, and `python-sat==1.9.dev25`.
 
 ```sh
-python search.py mckay-connected8.g6
-python extend_equality.py mckay-connected8.g6
-python structured.py --count 100
-python check_small_links.py
+python3 search.py mckay-connected8.g6
+python3 extend_equality.py mckay-connected8.g6
+python3 structured.py --count 100
+python3 check_small_links.py
 ```
 
-Use Python 3.10, NetworkX 3.3, and `python-sat==1.9.dev25`. The eight-vertex graph data are from Brendan McKay's catalogue, CC BY 4.0. [Licence and source](https://users.cecs.anu.edu.au/~bdm/data/graphs.html)
+For certificate replay and DRAT-trim verification, see [CERTIFICATE.md#replay](CERTIFICATE.md#replay).
